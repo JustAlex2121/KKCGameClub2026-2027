@@ -1,8 +1,8 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: ClubMechGameTest
-- Unity version: Unity 6000.0.42f1
+- Project name: My project
+- Unity version: Unity 6000.0.66f2
 - Active game object:
-  - Name: Main Camera
-  - Tag: MainCamera
+  - Name: Dial
+  - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

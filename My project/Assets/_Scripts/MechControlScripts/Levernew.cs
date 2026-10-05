@@ -69,6 +69,7 @@ public class Levernew : MonoBehaviour
     {
         if (movemech)
         {
+            //vertical lever
             if (clampedX > 0)
             {
                 Vector3 localDirection = new Vector3(0f, 0f, 1f);
@@ -89,13 +90,14 @@ public class Levernew : MonoBehaviour
 
         if (rotatemech) 
         {
+            //horizontal lever
             if(clampedZ > 0)
             {
-                mechrb.angularVelocity = new Vector3(0, 3f, 0f);
+                mechrb.angularVelocity = new Vector3(0, -3f, 0f);
             }
             else if (clampedZ < 0)
             {
-                mechrb.angularVelocity = new Vector3(0, -3f, 0f);
+                mechrb.angularVelocity = new Vector3(0, 3f, 0f);
             }
            
             Debug.Log(mechrb.angularVelocity.magnitude);
