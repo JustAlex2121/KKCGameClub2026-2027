@@ -12,7 +12,7 @@ public class NavAgentMover : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public bool HasArrived => agent.remainingDistance <= agent.stoppingDistance + float.Epsilon;
+    public bool HasArrived => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f;
 
     internal void MoveToPos(Vector3 vector3)
     {
