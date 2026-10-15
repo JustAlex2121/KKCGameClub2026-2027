@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EngineLever : MonoBehaviour
@@ -13,12 +14,16 @@ public class EngineLever : MonoBehaviour
     private Plane movementPlane;
     private Transform parentTransform;
     [SerializeField] private Transform rodtransform;
+    [SerializeField] private Transform ontargetlocation;
+    [SerializeField] private Transform offtargetlocation;
+
+    [SerializeField] private float rodduration;
     private Vector3 origleverPosition;
 
-    private bool moverod;
 
     void Start()
     {
+        
         origleverPosition = transform.localPosition;
         mainCamera = Camera.main;
 
@@ -44,35 +49,60 @@ public class EngineLever : MonoBehaviour
 
     void OnMouseUp()
     {
-        /*
-        if(transform.localPosition.y == minLocalY || transform.localPosition.y == maxLocalY)
+        if(rodduration < 0)
         {
-            //alt method
-            origleverPosition = transform.localPosition;
+            rodduration *= -1;
         }
-        */
+
         if(transform.localPosition.y > 0f)
         {
+
             origleverPosition.y = maxLocalY;
+            StartCoroutine(MoveRodGradually(false));
+
         }
         else if (transform.localPosition.y < 0f)
         {
+            
             origleverPosition.y = minLocalY;
+            StartCoroutine(MoveRodGradually(true));
         }
 
         //moves lever back to starting position when the player lets go of the mouse button
         transform.localPosition = origleverPosition;
 
     }
-    /*
-    void FixedUpdate()
+
+    private IEnumerator MoveRodGradually(bool goingdown)
     {
-       //movement code for rod goes here
+        Vector3 startPosition = rodtransform.position;
+        float elapsedTime = 0f;
+
+        if (goingdown)
+        {
+            while (elapsedTime < rodduration)
+            {
+                //moves the object each frame based on the amount of time elapsed and time left.
+                rodtransform.position = Vector3.Lerp(startPosition, offtargetlocation.position, elapsedTime / rodduration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+        else
+        {
+            while (elapsedTime < rodduration)
+            {
+                //moves the object each frame based on the amount of time elapsed and time left.
+                rodtransform.position = Vector3.Lerp(startPosition, ontargetlocation.position, elapsedTime / rodduration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+        }
     }
-    */
 
 
-    void OnMouseDrag()
+        void OnMouseDrag()
     {
 
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);

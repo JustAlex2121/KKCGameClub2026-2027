@@ -3,6 +3,6 @@
 - Unity version: Unity 6000.0.66f2
 - Active game object:
   - Name: LeverHandle
-  - Tag: Untagged
+  - Tag: Lever
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

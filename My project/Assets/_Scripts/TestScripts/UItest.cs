@@ -7,8 +7,10 @@ public class UItest : MonoBehaviour
 
     public GameObject enginedial;
     [SerializeField] private Image testfill;
+    [SerializeField] private GameObject engineonimage;
     private float inspectorz;
     public float fillamount;
+    public bool enginerodon = false;
 
     private void Update()
     {
@@ -19,7 +21,6 @@ public class UItest : MonoBehaviour
             inspectorz -= 360f;
         }
 
-        Debug.Log(inspectorz);
 
         fillamount = inspectorz / 180f;
 
@@ -29,6 +30,14 @@ public class UItest : MonoBehaviour
         }
         testfill.fillAmount = fillamount;
 
+        if(enginerodon)
+        {
+            engineonimage.SetActive(true);
+        }
+        else
+        {
+            engineonimage.SetActive(false);
+        }
     }
 
 }

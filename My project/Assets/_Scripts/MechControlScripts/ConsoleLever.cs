@@ -118,7 +118,6 @@ public class ConsoleLever : MonoBehaviour
                 mechrb.angularVelocity = new Vector3(0f, finalturnspeed, 0f);
             }
            
-            Debug.Log(mechrb.angularVelocity.magnitude);
         }
     }
  
