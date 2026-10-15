@@ -192,6 +192,7 @@ MonoBehaviour:
   minLocalZ: -0.1
   maxLocalZ: 0.1
   mechspeedmultiplier: 750
+  turnspeed: 3
   mechrb: {fileID: 1662781854}
 --- !u!23 &11503516
 MeshRenderer:
@@ -372,6 +373,7 @@ MonoBehaviour:
   minLocalZ: 0
   maxLocalZ: 0
   mechspeedmultiplier: 8
+  turnspeed: 0
   mechrb: {fileID: 1662781854}
 --- !u!1 &290818369
 GameObject:
@@ -1990,8 +1992,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.0381188, y: 1, z: 0.99999964}
+  m_Center: {x: -0.019059556, y: 0, z: 0}
 --- !u!23 &884602942
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2532,7 +2534,7 @@ Transform:
   m_GameObject: {fileID: 1461048160}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.20414193, y: 0.5051951, z: -0.014968829}
+  m_LocalPosition: {x: 0.2, y: 0.5051951, z: -0.014968829}
   m_LocalScale: {x: 0.027559267, y: 1.0261385, z: 0.057161093}
   m_ConstrainProportionsScale: 0
   m_Children: []

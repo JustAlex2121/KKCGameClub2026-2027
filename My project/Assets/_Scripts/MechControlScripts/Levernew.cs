@@ -8,6 +8,9 @@ public class Levernew : MonoBehaviour
     public float minLocalZ = -5f;
     public float maxLocalZ = 5f;
     public float mechspeedmultiplier;
+
+    public float turnspeed;
+    private float finalturnspeed;
     private float clampedX;
     private float clampedZ;
 
@@ -93,11 +96,26 @@ public class Levernew : MonoBehaviour
             //horizontal lever
             if(clampedZ > 0)
             {
-                mechrb.angularVelocity = new Vector3(0, -3f, 0f);
+                //future proofing for later addition of making the amount the lever is pulled or pushed influence how fast the mech turns or moves
+                finalturnspeed = turnspeed * -1;
+
+                if(finalturnspeed > 0)
+                {
+                    finalturnspeed *= -1;
+                }
+                mechrb.angularVelocity = new Vector3(0f, finalturnspeed, 0f);
             }
             else if (clampedZ < 0)
             {
-                mechrb.angularVelocity = new Vector3(0, 3f, 0f);
+                //future proofing for later addition of making the amount the lever is pulled or pushed influence how fast the mech turns or moves
+                finalturnspeed = turnspeed * 1;
+
+                if (finalturnspeed < 0)
+                {
+                    finalturnspeed *= -1;
+                }
+
+                mechrb.angularVelocity = new Vector3(0f, finalturnspeed, 0f);
             }
            
             Debug.Log(mechrb.angularVelocity.magnitude);

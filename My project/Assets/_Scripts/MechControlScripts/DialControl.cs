@@ -4,7 +4,6 @@ using UnityEngine;
 public class DialControl : MonoBehaviour
 {
     [SerializeField] private Vector3 rotationAxis = Vector3.forward; // Axis the dial rotates on
-    private Vector3 testrotation = Vector3.right;
     [SerializeField] private float sensitivity = 1.0f;
     [SerializeField] private bool useLimits = false;
     [SerializeField] private float minAngle = 0f;
