@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Levernew : MonoBehaviour
+public class ConsoleLever : MonoBehaviour
 {
     public float minLocalX = -5f;
     public float maxLocalX = 5f;
@@ -148,11 +148,9 @@ public class Levernew : MonoBehaviour
             clampedX = Mathf.Clamp(targetLocalPos.x, minLocalX, maxLocalX);
             clampedZ = Mathf.Clamp(targetLocalPos.z, minLocalZ, maxLocalZ);
 
-            //keeps Y position tracking the local origin or parent structure
-            float keptY = targetLocalPos.y;
 
             //applies clamped local position back to the object
-            transform.localPosition = new Vector3(clampedX, keptY, clampedZ);
+            transform.localPosition = new Vector3(clampedX, origleverPosition.y, clampedZ);
         }
 
 

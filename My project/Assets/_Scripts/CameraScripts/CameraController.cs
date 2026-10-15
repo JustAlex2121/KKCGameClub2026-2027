@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour
     public MeshRenderer playerrender;
     public Collider playercollider;
     private GameObject triggerarea;
+    [SerializeField] private bool lookdown;
 
     void Update()
     {
