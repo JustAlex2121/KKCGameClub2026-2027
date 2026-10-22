@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EngineLever : MonoBehaviour
 {
+
     public float minLocalY = -5f;
     public float maxLocalY = 5f;
 
@@ -26,26 +27,28 @@ public class EngineLever : MonoBehaviour
         
         origleverPosition = transform.localPosition;
         mainCamera = Camera.main;
-
         //grabs the transform of the parent of the object this script is attached to
         parentTransform = transform.parent;
     }
 
+
     void OnMouseDown()
     {
-        //creates a horizontal plane at the object's current height
-        movementPlane = new Plane(Vector3.forward, transform.position);
+            //creates a horizontal plane at the object's current height
+            movementPlane = new Plane(Vector3.forward, transform.position);
 
-        //finds the exact hit point of the mouse on that plane
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (movementPlane.Raycast(ray, out float distance))
-        {
-            Vector3 mouseWorldPos = ray.GetPoint(distance);
+            //finds the exact hit point of the mouse on that plane
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (movementPlane.Raycast(ray, out float distance))
+            {
+                Vector3 mouseWorldPos = ray.GetPoint(distance);
 
-            //calculates offset so the object doesnt snap its center to the mouse
-            dragOffset = transform.position - mouseWorldPos;
-        }
+                //calculates offset so the object doesnt snap its center to the mouse
+                dragOffset = transform.position - mouseWorldPos;
+            }
+
     }
+
 
     void OnMouseUp()
     {
@@ -103,8 +106,7 @@ public class EngineLever : MonoBehaviour
 
 
         void OnMouseDrag()
-    {
-
+        {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (movementPlane.Raycast(ray, out float distance))

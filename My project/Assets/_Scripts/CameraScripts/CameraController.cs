@@ -11,9 +11,7 @@ public class CameraController : MonoBehaviour
     private string currentTag;
 
     public float transitionSpeed = 5f;
-
-    public Vector3 cameraOffsetConsole = new Vector3(0f, 0f, 0f);
-    public Vector3 cameraOffsetEngine = new Vector3(0f, 0f, 0f);
+    private Vector3 cameraOffset;
 
 
     private Vector3 originalPosition;
@@ -27,6 +25,7 @@ public class CameraController : MonoBehaviour
     public MeshRenderer playerrender;
     public Collider playercollider;
     private GameObject triggerarea;
+    private CameraTriggerArea area;
     [SerializeField] private bool lookdown;
 
     void Update()
@@ -73,6 +72,8 @@ public class CameraController : MonoBehaviour
             if (currentTag == "Console" || currentTag == "Engine")
             {
                 triggerarea = hit.collider.gameObject;
+                area = triggerarea.GetComponent<CameraTriggerArea>();
+                cameraOffset = area.triggerCameraOffset;
                 currentTarget = hit.transform;
                 isLocked = true;
                 if (!storedPos)
@@ -118,7 +119,7 @@ public class CameraController : MonoBehaviour
         if(currentTag == "Console")
         {
             Quaternion targetRotation = Quaternion.Euler(90f, 90f, 0);
-            Vector3 targetPosition = currentTarget.position + cameraOffsetConsole;
+            Vector3 targetPosition = currentTarget.position + cameraOffset;
 
             //continues until position and rotation are close enough to the target
             while (Vector3.Distance(transform.position, targetPosition) > 0.01f ||
@@ -141,7 +142,7 @@ public class CameraController : MonoBehaviour
         else if (currentTag == "Engine")
         {
             Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
-            Vector3 targetPosition = currentTarget.position + cameraOffsetEngine;
+            Vector3 targetPosition = currentTarget.position + cameraOffset;
 
             //continues until position and rotation are close enough to the target
             while (Vector3.Distance(transform.position, targetPosition) > 0.01f ||
