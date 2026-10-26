@@ -17,16 +17,15 @@ public class NoiseEmitter : MonoBehaviour
         if (Time.time < nextAllowedTime) return;
         if (collision.relativeVelocity.magnitude < minImpactSpeed) return;
  
-        // Only count walls: contact normal pointing sideways, not up/down (floor).
+        
         ContactPoint contact = collision.GetContact(0);
         if (Mathf.Abs(contact.normal.y) > 0.5f) return;
  
         nextAllowedTime = Time.time + cooldown;
-        Debug.Log($"wall hit at {contact.point}, noise radius {wallHitRadius}");
         NoiseSystem.Emit(contact.point, wallHitRadius);
     }
  
-    /// <summary>For any other one-off noise you add later.</summary>
+    
     public void Emit(float radius) => NoiseSystem.Emit(transform.position, radius);
  
     private void OnDrawGizmosSelected()

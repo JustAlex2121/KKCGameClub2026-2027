@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 public class NoiseHearingAI : MonoBehaviour
 {
     private enum State { Wander, Investigate, Search }
@@ -16,11 +17,16 @@ public class NoiseHearingAI : MonoBehaviour
     [SerializeField] private float searchDuration = 4f;
     [SerializeField] private float wanderRadius = 12f;
     [SerializeField] private Vector2 wanderPause = new Vector2(2f, 5f);
+
+    [Header("Catching the mech")]
+    [SerializeField] private Rigidbody mechRb = null;
+    [SerializeField] private string gameOverScene = "GameOver";
  
     private State state = State.Wander;
     private float currentNoiseScore;   // how "strong" the noise we're investigating was (0-1)
     private float stateTimer;
     private Vector3 investigatePos;
+    private bool caught;
  
     private void Awake()
     {
@@ -87,8 +93,19 @@ public class NoiseHearingAI : MonoBehaviour
         currentNoiseScore = 0f;
         stateTimer = 0f;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (caught) return;
+
+        if (other.attachedRigidbody == mechRb)
+        {
+            caught = true;
+            SceneManager.LoadScene(gameOverScene);
+        }
+    }
  
-    /// <summary>Random point near 'center' that is actually on the NavMesh.</summary>
+    
     private static Vector3 RandomNavPoint(Vector3 center, float radius)
     {
         Vector3 p = center + Random.insideUnitSphere * radius;
