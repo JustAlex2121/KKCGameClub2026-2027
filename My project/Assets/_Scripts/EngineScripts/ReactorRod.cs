@@ -7,8 +7,14 @@ public class ReactorRod : MonoBehaviour
 
     [Range(1, 4)] public int rodNumber;
 
+    // Reference to the main engine script
+    private EngineControlScript enginecontrol;
 
 
+    private void Start()
+    {
+        enginecontrol = Object.FindFirstObjectByType<EngineControlScript>();
+    }
     private void OnTriggerEnter(Collider trigger)
     {
         Debug.Log("trigger entered");
@@ -16,19 +22,19 @@ public class ReactorRod : MonoBehaviour
         {
             if (rodNumber == 1)
             {
-                button.enginerod1on = true;
+                enginecontrol.enginerod1on = true;
             }
             else if (rodNumber == 2)
             {
-                button.enginerod2on = true;
+                enginecontrol.enginerod2on = true;
             }
             else if(rodNumber == 3)
             {
-                button.enginerod3on = true;
+                enginecontrol.enginerod3on = true;
             }
             else if(rodNumber == 4)
             {
-                button.enginerod4on = true;
+                enginecontrol.enginerod4on = true;
             }
             
         }
@@ -36,19 +42,19 @@ public class ReactorRod : MonoBehaviour
         {
             if (rodNumber == 1)
             {
-                button.enginerod1on = false;
+                enginecontrol.enginerod1on = false;
             }
             else if (rodNumber == 2)
             {
-                button.enginerod2on = false;
+                enginecontrol.enginerod2on = false;
             }
             else if (rodNumber == 3)
             {
-                button.enginerod3on = false;
+                enginecontrol.enginerod3on = false;
             }
             else if (rodNumber == 4)
             {
-                button.enginerod4on = false;
+                enginecontrol.enginerod4on = false;
             }
         }
     }

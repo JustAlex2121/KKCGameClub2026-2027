@@ -163,7 +163,6 @@ public class CameraController : MonoBehaviour
             transform.rotation = targetRotation;
         }
 
-        Debug.Log("end of routine");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         ranroutine = true;

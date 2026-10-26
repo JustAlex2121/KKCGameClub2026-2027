@@ -2366,6 +2366,62 @@ Transform:
   - {fileID: 961069248}
   m_Father: {fileID: 302389850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &444585676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 444585677}
+  - component: {fileID: 444585678}
+  m_Layer: 0
+  m_Name: EngineControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &444585677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444585676}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.31898117, y: -1.0740542, z: -4.797755}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 917593109}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &444585678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444585676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1daf7161a2c26429c235491766c00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  engineoverheated: 0
+  enginetimer: 10
+  enginerod1on: 0
+  enginerod2on: 0
+  enginerod3on: 0
+  enginerod4on: 0
+  requireonerod: 0
+  rod1levercollider: {fileID: 72610245}
+  rod2levercollider: {fileID: 884166469}
+  rod3levercollider: {fileID: 1392551395}
+  rod4levercollider: {fileID: 1766105209}
+  reactorrodsokay: 0
 --- !u!1 &468593128
 GameObject:
   m_ObjectHideFlags: 0
@@ -4515,6 +4571,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 444585677}
   - {fileID: 289541942}
   - {fileID: 1935564348}
   - {fileID: 880451902}
@@ -7718,22 +7775,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d5e7f978863b24ca19783a72d02d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enginetimer: 10
-  enginerod1on: 0
-  enginerod2on: 0
-  enginerod3on: 0
-  enginerod4on: 0
   light1: {fileID: 972369882}
   light2: {fileID: 1917694915}
   light3: {fileID: 841112796}
   light4: {fileID: 903878936}
   correct: {fileID: 2100000, guid: 07c88135a3379f4448661dfb5490e505, type: 2}
   wrong: {fileID: 2100000, guid: bf2e041ae6dd2924a943f4e4dab7519f, type: 2}
-  rod1levercollider: {fileID: 72610245}
-  rod2levercollider: {fileID: 884166469}
-  rod3levercollider: {fileID: 1392551395}
-  rod4levercollider: {fileID: 1766105209}
-  reactorrodsokay: 0
 --- !u!1 &1766105208
 GameObject:
   m_ObjectHideFlags: 0
@@ -8227,7 +8274,7 @@ GameObject:
   - component: {fileID: 1894592478}
   - component: {fileID: 1894592477}
   m_Layer: 0
-  m_Name: Dial
+  m_Name: CDial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9050,7 +9097,7 @@ GameObject:
   - component: {fileID: 2061898712}
   - component: {fileID: 2061898711}
   m_Layer: 0
-  m_Name: Dial
+  m_Name: PDial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9156,7 +9203,7 @@ MonoBehaviour:
   rotationAxis: {x: 0, y: 0, z: 1}
   sensitivity: 1
   useLimits: 1
-  minAngle: -180
+  minAngle: -270
   maxAngle: 0
 --- !u!33 &2061898714
 MeshFilter:

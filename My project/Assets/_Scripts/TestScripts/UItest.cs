@@ -14,12 +14,6 @@ public class UItest : MonoBehaviour
     
     private float inspectorz;
     public float fillamount;
-    /*
-    public bool enginerod1on = false;
-    public bool enginerod2on = false;
-    public bool enginerod3on = false;
-    public bool enginerod4on = false;
-    */
     private void Update()
     {
         inspectorz = enginedial.transform.eulerAngles.z;
@@ -40,46 +34,5 @@ public class UItest : MonoBehaviour
 
         
     }
-
-    /*
-     public void CheckEngineRods()
-    {
-        if (enginerod1on)
-        {
-            engineonimage1.SetActive(true);
-        }
-        else
-        {
-            engineonimage1.SetActive(false);
-        }
-
-        if (enginerod2on)
-        {
-            engineonimage2.SetActive(true);
-        }
-        else
-        {
-            engineonimage2.SetActive(false);
-        }
-
-        if (enginerod3on)
-        {
-            engineonimage3.SetActive(true);
-        }
-        else
-        {
-            engineonimage3.SetActive(false);
-        }
-
-        if (enginerod4on)
-        {
-            engineonimage4.SetActive(true);
-        }
-        else
-        {
-            engineonimage4.SetActive(false);
-        }
-    }
-    */
 
 }

@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class CheckButton : MonoBehaviour
 {
-    private bool engineoverheated;
-    [SerializeField] private float enginetimer;
-
-    //value storing if the rods are up or down(on or off)
-    public bool enginerod1on;
-    public bool enginerod2on;
-    public bool enginerod3on;
-    public bool enginerod4on;
 
     //lights that will tell the player if they have the lever in the right position
     [SerializeField]private GameObject light1;
@@ -37,31 +29,13 @@ public class CheckButton : MonoBehaviour
     bool rod3correct;
     bool rod4correct;
 
-    //tried to use if statement in the onmousedown in the enginelever script to check if the rods in the engine were fine and if they were restrict movement, but that didn't work(couldn't figure out why)
-    [SerializeField] private Collider rod1levercollider;
-    [SerializeField] private Collider rod2levercollider;
-    [SerializeField] private Collider rod3levercollider;
-    [SerializeField] private Collider rod4levercollider;
-
-
-    //value for checking if the rods have already been put into the right position(not useful currently will be later when the rest of the engine stuff is implimented)
-    public bool reactorrodsokay;
+    // Reference to the main engine script
+    private EngineControlScript enginecontrol;
 
 
     private void Start()
     {
-        rod1levercollider.enabled = false;
-        rod2levercollider.enabled = false;
-        rod3levercollider.enabled = false;
-        rod4levercollider.enabled = false;
-
-        reactorrodsokay = true;
-
-        enginerod1on = false;
-        enginerod2on = false;
-        enginerod3on = false;
-        enginerod4on = false;
-
+        enginecontrol = Object.FindFirstObjectByType<EngineControlScript>();
         rod1correct = false;
         rod2correct = false;
         rod3correct = false;
@@ -69,12 +43,12 @@ public class CheckButton : MonoBehaviour
 
         numberrodcorrect = 0;
         ChangeRods();
-        StartCoroutine(EngineTimer());
+        StartCoroutine(enginecontrol.EngineTimer());
     }
 
     private void OnMouseDown()
     {
-        if (engineoverheated && !reactorrodsokay) 
+        if (enginecontrol.engineoverheated && !enginecontrol.reactorrodsokay) 
         {
             CheckEngine();
         }
@@ -85,7 +59,7 @@ public class CheckButton : MonoBehaviour
     private void CheckEngine()
     {
 
-        if(enginerod1on == rod1correctvalue)
+        if(enginecontrol.enginerod1on == rod1correctvalue)
         {
             light1.GetComponent<MeshRenderer>().material = correct;
             if (!rod1correct)
@@ -104,7 +78,7 @@ public class CheckButton : MonoBehaviour
             }
         }
 
-        if(enginerod2on == rod2correctvalue)
+        if(enginecontrol.enginerod2on == rod2correctvalue)
         {
             light2.GetComponent<MeshRenderer>().material = correct;
             if (!rod2correct)
@@ -123,7 +97,7 @@ public class CheckButton : MonoBehaviour
             }
         }
 
-        if (enginerod3on == rod3correctvalue)
+        if (enginecontrol.enginerod3on == rod3correctvalue)
         {
             light3.GetComponent<MeshRenderer>().material = correct;
             if (!rod3correct)
@@ -143,7 +117,7 @@ public class CheckButton : MonoBehaviour
 
         }
 
-        if (enginerod4on == rod4correctvalue)
+        if (enginecontrol.enginerod4on == rod4correctvalue)
         {
             light4.GetComponent<MeshRenderer>().material = correct;
             if (!rod4correct)
@@ -164,19 +138,19 @@ public class CheckButton : MonoBehaviour
 
         if(numberrodcorrect == 4)
         {
-            StartCoroutine(EngineTimer());
-            reactorrodsokay = true;
-            engineoverheated = false;
+            StartCoroutine(enginecontrol.EngineTimer());
+            enginecontrol.reactorrodsokay = true;
+            enginecontrol.engineoverheated = false;
             Debug.Log("all rods okay");
-            rod1levercollider.enabled = false;
-            rod2levercollider.enabled = false;
-            rod3levercollider.enabled = false;
-            rod4levercollider.enabled = false;
+            enginecontrol.rod1levercollider.enabled = false;
+            enginecontrol.rod2levercollider.enabled = false;
+            enginecontrol.rod3levercollider.enabled = false;
+            enginecontrol.rod4levercollider.enabled = false;
 
         }
     }
 
-    private void ChangeRods()
+    public void ChangeRods()
     {
         //random.value returns a float between 0 and 1 and here each rod bool will only be true of the value is above .5 so a 50% chance
         rod1correctvalue = UnityEngine.Random.value > 0.5f;
@@ -188,26 +162,33 @@ public class CheckButton : MonoBehaviour
         rod2correct = false;
         rod3correct = false;
         rod4correct = false;
-    }
-
-    private IEnumerator EngineTimer()
-    {
-        Debug.Log("engine timer started");
-        float ElapsedTime = 0;
-
-        while(ElapsedTime < enginetimer)
+        if (enginecontrol.requireonerod)
         {
-            ElapsedTime += Time.deltaTime;
-            yield return null;
+            if(!rod1correctvalue && !rod2correctvalue && !rod3correctvalue && !rod4correctvalue)
+            {
+                //random.range is inclusive for min number but exclusive for max number(meaning the min number is a possible output, but the max number is one number greater than the highest possible output)
+                int rodnumber = Random.Range(1, 5);
+
+                if (rodnumber == 1)
+                {
+                    rod1correctvalue = true;
+                }
+                else if(rodnumber == 2)
+                {
+                    rod2correctvalue = true;
+                }
+                else if(rodnumber == 3)
+                {
+                    rod3correctvalue = true;
+                }
+                else if(rodnumber == 4)
+                {
+                    rod4correctvalue = true;
+                }
+            }
         }
 
-        reactorrodsokay = false;
-        Debug.Log("engine overheated");
-        engineoverheated = true;
-        rod1levercollider.enabled = true;
-        rod2levercollider.enabled = true;
-        rod3levercollider.enabled = true;
-        rod4levercollider.enabled = true;
-        ChangeRods();
     }
+
+    
 }
