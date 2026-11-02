@@ -4,25 +4,36 @@ using UnityEngine;
 public class DialControl : MonoBehaviour
 {
     [SerializeField] private Vector3 rotationAxis = Vector3.forward; // Axis the dial rotates on
-    [SerializeField] private float sensitivity = 1.0f;
-    [SerializeField] private bool useLimits = false;
-    [SerializeField] private float minAngle = 0f;
-    [SerializeField] private float maxAngle = 270f;
-
     private Camera mainCamera;
 
     private float baseAngle;
     private float currentAngle = 0f;
 
+    private Quaternion startingRotation;
+
+    [Header("Allowed snap positions (relative to start)")]
+    [SerializeField] private bool useSnapAngles = false;
+    [SerializeField] private float[] snapAngles = new float[] { -30f, 0f, 15f, 60f, 85f };
+
+    [Header("Use if not using Snap Angles")]
+    [SerializeField] private bool useLimits = false;
+    [SerializeField] private float minAngle = 0f;
+    [SerializeField] private float maxAngle = 270f;
+    [SerializeField] private float sensitivity = 1.0f;
     void Start()
     {
         mainCamera = Camera.main;
 
-        // Initialize current angle matching the dial's starting local rotation
+        startingRotation = transform.localRotation;
+
+
+        //current angle matching the dial's starting local rotation
         currentAngle = Vector3.Dot(transform.localEulerAngles, rotationAxis);
     }
     void OnMouseDown()
     {
+        
+
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
@@ -35,6 +46,7 @@ public class DialControl : MonoBehaviour
             }
         }
     }
+
 
     void OnMouseDrag()
     {
@@ -51,15 +63,54 @@ public class DialControl : MonoBehaviour
             targetAngle = Mathf.Clamp(targetAngle, minAngle, maxAngle);
         }
 
-        //applies rotation around specified axis
-        transform.localRotation = Quaternion.AngleAxis(targetAngle, rotationAxis);
+        if (useSnapAngles)
+        {
+            float snappedAngle = GetClosestAllowedAngle(targetAngle);
+
+            //rotates object to specifc set angle on the specified axis while taking into account the starting rotation
+            transform.localRotation = startingRotation * Quaternion.AngleAxis(snappedAngle, rotationAxis);
+        }
+        else
+        {
+            //applies rotation around specified axis
+            transform.localRotation = Quaternion.AngleAxis(targetAngle, rotationAxis);
+        }
 
         //tracks state for next frame
-        currentAngle = targetAngle;
         //the current angle becomes the target angle because at this point the dial should have moved to where the target angle was.
-        baseAngle = currentMouseAngle;
+        currentAngle = targetAngle;
+
         //at this point the base angle becomes where the mouse was relative to the center of the dial on the last frame
+        baseAngle = currentMouseAngle;
+
     }
+
+    private float GetClosestAllowedAngle(float targetAngle)
+    {
+        if (snapAngles == null || snapAngles.Length == 0)
+        {
+            //returns targetAngle if list is empty
+            return targetAngle;
+        }
+
+        float closest = snapAngles[0];
+        float minDistance = Mathf.Abs(targetAngle - closest);
+
+        for (int i = 1; i < snapAngles.Length; i++)
+        {
+            float distance = Mathf.Abs(targetAngle - snapAngles[i]);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closest = snapAngles[i];
+            }
+        }
+
+        return closest;
+    }
+
+
+
 
     //math to get the current 2D screen angle of the mouse relative to the center of the dial
     private float GetMouseAngle()

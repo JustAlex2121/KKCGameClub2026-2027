@@ -12,10 +12,12 @@ public class UItest : MonoBehaviour
     [SerializeField] private GameObject engineonimage3;
     [SerializeField] private GameObject engineonimage4;
     
-    private float inspectorz;
-    public float fillamount;
+    //private float inspectorz;
+    //public float fillamount;
+    /*
     private void Update()
     {
+        
         inspectorz = enginedial.transform.eulerAngles.z;
 
         if (inspectorz > 180f)
@@ -32,7 +34,8 @@ public class UItest : MonoBehaviour
         }
         testfill.fillAmount = fillamount;
 
-        
+     
     }
+    */
 
 }

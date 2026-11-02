@@ -39,6 +39,7 @@ public class EngineControlScript : MonoBehaviour
         rod2levercollider.enabled = false;
         rod3levercollider.enabled = false;
         rod4levercollider.enabled = false;
+        // /\ do the same for the dials
 
         reactorrodsokay = true;
 
