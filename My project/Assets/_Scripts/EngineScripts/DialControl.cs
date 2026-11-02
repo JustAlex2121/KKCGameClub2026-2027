@@ -20,6 +20,11 @@ public class DialControl : MonoBehaviour
     [SerializeField] private float minAngle = 0f;
     [SerializeField] private float maxAngle = 270f;
     [SerializeField] private float sensitivity = 1.0f;
+
+    [SerializeField] private GaugeScript gauge;
+
+
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -94,6 +99,7 @@ public class DialControl : MonoBehaviour
         }
 
         float closest = snapAngles[0];
+        gauge.selectedValue = gauge.gaugeValues[0];
         float minDistance = Mathf.Abs(targetAngle - closest);
 
         for (int i = 1; i < snapAngles.Length; i++)
@@ -103,6 +109,7 @@ public class DialControl : MonoBehaviour
             {
                 minDistance = distance;
                 closest = snapAngles[i];
+                gauge.selectedValue = gauge.gaugeValues[i];
             }
         }
 

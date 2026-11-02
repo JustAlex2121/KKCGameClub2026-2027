@@ -18,30 +18,39 @@ public class EngineControlScript : MonoBehaviour
     public bool requireonerod;
 
     //tried to use if statement in the onmousedown in the enginelever script to check if the rods in the engine were fine and if they were restrict movement, but that didn't work(couldn't figure out why)
-    [Header("The colliders for the movable part of the engine levers")]
+    [Header("The colliders for the movable part of the engine")]
     public Collider rod1levercollider;
     public Collider rod2levercollider;
     public Collider rod3levercollider;
     public Collider rod4levercollider;
+    public Collider coolantdialcollider;
+    public Collider pressuredialcollider;
 
     //value for checking if the rods have already been put into the right position(not useful currently will be later when the rest of the engine stuff is implimented)
     public bool reactorrodsokay;
+    public bool coolantdialokay;
+    public bool pressuredialokay;
+
 
     //reference to the CheckButton script
-    private CheckButton button;
+    private CheckButtonLever button;
 
 
     private void Start()
     {
-        button = Object.FindFirstObjectByType<CheckButton>();
+        button = Object.FindFirstObjectByType<CheckButtonLever>();
 
         rod1levercollider.enabled = false;
         rod2levercollider.enabled = false;
         rod3levercollider.enabled = false;
         rod4levercollider.enabled = false;
+        coolantdialcollider.enabled = false;
+        pressuredialcollider.enabled = false;
         // /\ do the same for the dials
 
         reactorrodsokay = true;
+        coolantdialokay = true;
+        pressuredialokay = true;
 
         enginerod1on = false;
         enginerod2on = false;
@@ -68,6 +77,8 @@ public class EngineControlScript : MonoBehaviour
         rod2levercollider.enabled = true;
         rod3levercollider.enabled = true;
         rod4levercollider.enabled = true;
+        coolantdialcollider.enabled = true;
+        pressuredialcollider.enabled = true;
         button.ChangeRods();
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ReactorRod : MonoBehaviour
 {
     public UItest ui;
-    [SerializeField]private CheckButton button;
+    [SerializeField]private CheckButtonLever button;
 
     [Range(1, 4)] public int rodNumber;
 

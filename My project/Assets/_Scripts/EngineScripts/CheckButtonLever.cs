@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine;
 
-public class CheckButton : MonoBehaviour
+public class CheckButtonLever : MonoBehaviour
 {
 
     //lights that will tell the player if they have the lever in the right position
