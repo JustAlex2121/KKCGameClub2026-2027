@@ -27,6 +27,7 @@ public class NoiseHearingAI : MonoBehaviour
     private float stateTimer;
     private Vector3 investigatePos;
     private bool caught;
+
  
     private void Awake()
     {
@@ -86,7 +87,8 @@ public class NoiseHearingAI : MonoBehaviour
         state = State.Investigate;
         mover.MoveToPos(investigatePos);
     }
- 
+
+    
     private void EnterWander()
     {
         state = State.Wander;
