@@ -8,6 +8,10 @@ TagManager:
   - Mech
   - Console
   - Engine
+  - EngineRod
+  - On
+  - Off
+  - Canvas
   layers:
   - Default
   - TransparentFX

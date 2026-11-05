@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Levernew : MonoBehaviour
+public class ConsoleLever : MonoBehaviour
 {
     public float minLocalX = -5f;
     public float maxLocalX = 5f;
     public float minLocalZ = -5f;
     public float maxLocalZ = 5f;
     public float mechspeedmultiplier;
+
+    public float turnspeed;
+    private float finalturnspeed;
     private float clampedX;
     private float clampedZ;
 
@@ -93,14 +96,28 @@ public class Levernew : MonoBehaviour
             //horizontal lever
             if(clampedZ > 0)
             {
-                mechrb.angularVelocity = new Vector3(0, -3f, 0f);
+                //future proofing for later addition of making the amount the lever is pulled or pushed influence how fast the mech turns or moves
+                finalturnspeed = turnspeed * -1;
+
+                if(finalturnspeed > 0)
+                {
+                    finalturnspeed *= -1;
+                }
+                mechrb.angularVelocity = new Vector3(0f, finalturnspeed, 0f);
             }
             else if (clampedZ < 0)
             {
-                mechrb.angularVelocity = new Vector3(0, 3f, 0f);
+                //future proofing for later addition of making the amount the lever is pulled or pushed influence how fast the mech turns or moves
+                finalturnspeed = turnspeed * 1;
+
+                if (finalturnspeed < 0)
+                {
+                    finalturnspeed *= -1;
+                }
+
+                mechrb.angularVelocity = new Vector3(0f, finalturnspeed, 0f);
             }
            
-            Debug.Log(mechrb.angularVelocity.magnitude);
         }
     }
  
@@ -130,11 +147,9 @@ public class Levernew : MonoBehaviour
             clampedX = Mathf.Clamp(targetLocalPos.x, minLocalX, maxLocalX);
             clampedZ = Mathf.Clamp(targetLocalPos.z, minLocalZ, maxLocalZ);
 
-            //keeps Y position tracking the local origin or parent structure
-            float keptY = targetLocalPos.y;
 
             //applies clamped local position back to the object
-            transform.localPosition = new Vector3(clampedX, keptY, clampedZ);
+            transform.localPosition = new Vector3(clampedX, origleverPosition.y, clampedZ);
         }
 
 
