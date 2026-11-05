@@ -6,14 +6,12 @@ public class CheckButtonLever : MonoBehaviour
 {
 
     //lights that will tell the player if they have the lever in the right position
-    [SerializeField]private GameObject light1;
-    [SerializeField] private GameObject light2;
-    [SerializeField] private GameObject light3;
-    [SerializeField] private GameObject light4;
+    public GameObject rodlight1;
+    public GameObject rodlight2;
+    public GameObject rodlight3;
+    public GameObject rodlight4;
     
-    //materials for the lights
-    [SerializeField] private Material correct;
-    [SerializeField] private Material wrong;
+
 
     private int numberrodcorrect;
 
@@ -28,6 +26,7 @@ public class CheckButtonLever : MonoBehaviour
     bool rod2correct;
     bool rod3correct;
     bool rod4correct;
+
 
     // Reference to the main engine script
     private EngineControlScript enginecontrol;
@@ -61,7 +60,7 @@ public class CheckButtonLever : MonoBehaviour
 
         if(enginecontrol.enginerod1on == rod1correctvalue)
         {
-            light1.GetComponent<MeshRenderer>().material = correct;
+            rodlight1.GetComponent<MeshRenderer>().material = enginecontrol.correct;
             if (!rod1correct)
             {
                 numberrodcorrect += 1;
@@ -70,7 +69,7 @@ public class CheckButtonLever : MonoBehaviour
         }
         else
         {
-            light1.GetComponent<MeshRenderer>().material = wrong;
+            rodlight1.GetComponent<MeshRenderer>().material = enginecontrol.wrong;
             if (rod1correct)
             {
                 numberrodcorrect -= 1;
@@ -80,7 +79,7 @@ public class CheckButtonLever : MonoBehaviour
 
         if(enginecontrol.enginerod2on == rod2correctvalue)
         {
-            light2.GetComponent<MeshRenderer>().material = correct;
+            rodlight2.GetComponent<MeshRenderer>().material = enginecontrol.correct;
             if (!rod2correct)
             {
                 numberrodcorrect += 1;
@@ -89,7 +88,7 @@ public class CheckButtonLever : MonoBehaviour
         }
         else
         {
-            light2.GetComponent<MeshRenderer>().material = wrong;
+            rodlight2.GetComponent<MeshRenderer>().material = enginecontrol.wrong;
             if (rod2correct)
             {
                 numberrodcorrect -= 1;
@@ -99,7 +98,7 @@ public class CheckButtonLever : MonoBehaviour
 
         if (enginecontrol.enginerod3on == rod3correctvalue)
         {
-            light3.GetComponent<MeshRenderer>().material = correct;
+            rodlight3.GetComponent<MeshRenderer>().material = enginecontrol.correct;
             if (!rod3correct)
             {
                 numberrodcorrect += 1;
@@ -108,7 +107,7 @@ public class CheckButtonLever : MonoBehaviour
         }
         else
         {
-            light3.GetComponent<MeshRenderer>().material = wrong;
+            rodlight3.GetComponent<MeshRenderer>().material = enginecontrol.wrong;
             if (rod3correct)
             {
                 numberrodcorrect -= 1;
@@ -119,7 +118,7 @@ public class CheckButtonLever : MonoBehaviour
 
         if (enginecontrol.enginerod4on == rod4correctvalue)
         {
-            light4.GetComponent<MeshRenderer>().material = correct;
+            rodlight4.GetComponent<MeshRenderer>().material = enginecontrol.correct;
             if (!rod4correct)
             {
                 numberrodcorrect += 1;
@@ -128,7 +127,7 @@ public class CheckButtonLever : MonoBehaviour
         }
         else
         {
-            light4.GetComponent<MeshRenderer>().material = wrong;
+            rodlight4.GetComponent<MeshRenderer>().material = enginecontrol.wrong;
             if (rod4correct)
             {
                 numberrodcorrect -= 1;
@@ -138,14 +137,14 @@ public class CheckButtonLever : MonoBehaviour
 
         if(numberrodcorrect == 4)
         {
-            StartCoroutine(enginecontrol.EngineTimer());
+
             enginecontrol.reactorrodsokay = true;
-            enginecontrol.engineoverheated = false;
             Debug.Log("all rods okay");
             enginecontrol.rod1levercollider.enabled = false;
             enginecontrol.rod2levercollider.enabled = false;
             enginecontrol.rod3levercollider.enabled = false;
             enginecontrol.rod4levercollider.enabled = false;
+            enginecontrol.CheckEngineStatus();
 
         }
     }

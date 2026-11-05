@@ -28,17 +28,22 @@ public class EngineControlScript : MonoBehaviour
 
     //value for checking if the rods have already been put into the right position(not useful currently will be later when the rest of the engine stuff is implimented)
     public bool reactorrodsokay;
-    public bool coolantdialokay;
-    public bool pressuredialokay;
+    public bool enginedialsokay;
 
 
     //reference to the CheckButton script
     private CheckButtonLever button;
+    private CheckButtonDial dial;
+
+    //materials for the lights
+    public Material correct;
+    public Material wrong;
 
 
     private void Start()
     {
         button = Object.FindFirstObjectByType<CheckButtonLever>();
+        dial = Object.FindFirstObjectByType<CheckButtonDial>();
 
         rod1levercollider.enabled = false;
         rod2levercollider.enabled = false;
@@ -46,11 +51,9 @@ public class EngineControlScript : MonoBehaviour
         rod4levercollider.enabled = false;
         coolantdialcollider.enabled = false;
         pressuredialcollider.enabled = false;
-        // /\ do the same for the dials
 
         reactorrodsokay = true;
-        coolantdialokay = true;
-        pressuredialokay = true;
+        enginedialsokay = true;
 
         enginerod1on = false;
         enginerod2on = false;
@@ -58,6 +61,14 @@ public class EngineControlScript : MonoBehaviour
         enginerod4on = false;
     }
 
+    public void CheckEngineStatus()
+    {
+        if(reactorrodsokay && enginedialsokay)
+        {
+            engineoverheated = false;
+            StartCoroutine(EngineTimer());
+        }
+    }
 
     public IEnumerator EngineTimer()
     {
@@ -71,6 +82,7 @@ public class EngineControlScript : MonoBehaviour
         }
 
         reactorrodsokay = false;
+        enginedialsokay = false;
         Debug.Log("engine overheated");
         engineoverheated = true;
         rod1levercollider.enabled = true;
@@ -80,5 +92,13 @@ public class EngineControlScript : MonoBehaviour
         coolantdialcollider.enabled = true;
         pressuredialcollider.enabled = true;
         button.ChangeRods();
+        dial.ChangeValue();
+        button.rodlight1.GetComponent<MeshRenderer>().material = wrong;
+        button.rodlight2.GetComponent<MeshRenderer>().material = wrong;
+        button.rodlight3.GetComponent<MeshRenderer>().material = wrong;
+        button.rodlight4.GetComponent<MeshRenderer>().material = wrong;
+        dial.lightcoolant.GetComponent<MeshRenderer>().material = wrong;
+        dial.lightpressure.GetComponent<MeshRenderer>().material = wrong;
+        yield break;
     }
 }
