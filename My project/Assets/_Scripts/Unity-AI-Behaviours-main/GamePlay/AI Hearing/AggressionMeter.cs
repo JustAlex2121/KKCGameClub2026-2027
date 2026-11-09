@@ -7,7 +7,8 @@ public class AggressionMeter : MonoBehaviour
     [SerializeField] private float aggression = 0f;
     [SerializeField] private float gainpernoise = 25f;
 
-    
+    private void OnEnable() => NoiseSystem.NoiseMade += BillTol;
+    private void OnDisable() => NoiseSystem.NoiseMade -= BillTol;
 
     private void BillTol(Vector3 pos, float radius)
     {

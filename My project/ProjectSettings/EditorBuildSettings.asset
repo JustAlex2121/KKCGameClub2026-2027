@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 9a411035788596745a1843cd0b743976
+  - enabled: 1
+    path: Assets/Scenes/Adrian Bald head.unity
+    guid: 8590337a84955c04e848e84b9f50fa23
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

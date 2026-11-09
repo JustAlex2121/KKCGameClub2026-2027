@@ -98,6 +98,8 @@ public class NoiseHearingAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (caught || mechRb == null) return;
+        
         if (caught) return;
 
         if (other.attachedRigidbody == mechRb)
