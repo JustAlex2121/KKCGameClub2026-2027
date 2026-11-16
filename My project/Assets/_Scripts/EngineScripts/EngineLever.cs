@@ -10,7 +10,7 @@ public class EngineLever : MonoBehaviour
 
     private float clampedY;
 
-    private Camera mainCamera;
+    [SerializeField] private Camera UICamera;
     private Vector3 dragOffset;
     private Plane movementPlane;
     private Transform parentTransform;
@@ -26,7 +26,7 @@ public class EngineLever : MonoBehaviour
     {
         
         origleverPosition = transform.localPosition;
-        mainCamera = Camera.main;
+        //UICamera = Camera.main;
         //grabs the transform of the parent of the object this script is attached to
         parentTransform = transform.parent;
     }
@@ -38,7 +38,7 @@ public class EngineLever : MonoBehaviour
             movementPlane = new Plane(Vector3.forward, transform.position);
 
             //finds the exact hit point of the mouse on that plane
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = UICamera.ScreenPointToRay(Input.mousePosition);
             if (movementPlane.Raycast(ray, out float distance))
             {
                 Vector3 mouseWorldPos = ray.GetPoint(distance);
@@ -107,7 +107,7 @@ public class EngineLever : MonoBehaviour
 
         void OnMouseDrag()
         {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UICamera.ScreenPointToRay(Input.mousePosition);
 
         if (movementPlane.Raycast(ray, out float distance))
         {

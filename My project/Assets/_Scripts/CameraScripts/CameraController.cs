@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour
     private GameObject triggerarea;
     private CameraTriggerArea area;
     [SerializeField] private bool lookdown;
+    public Camera UiCamera;
 
     void Update()
     {
@@ -61,7 +62,8 @@ public class CameraController : MonoBehaviour
 
 
         //shoots a ray from the camera to the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = UiCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))

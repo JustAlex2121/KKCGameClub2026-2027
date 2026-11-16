@@ -2,7 +2,7 @@
 - Project name: My project
 - Unity version: Unity 6000.0.66f2
 - Active game object:
-  - Name: PlusButton
-  - Tag: Untagged
+  - Name: UI Camera
+  - Tag: MainCamera
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
