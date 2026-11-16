@@ -3734,6 +3734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aggression: 0
   gainpernoise: 25
+  drainpersecond: 3
 --- !u!114 &424932506
 MonoBehaviour:
   m_ObjectHideFlags: 0

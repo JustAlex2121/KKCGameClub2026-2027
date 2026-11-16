@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 [RequireComponent(typeof(NavMeshAgent))]
 public class NavAgentMover : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class NavAgentMover : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    public bool HasArrived => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f;
+    public bool HasArrived => agent.isOnNavMesh && !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f;
 
     internal void MoveToPos(Vector3 vector3)
     {
@@ -23,5 +24,11 @@ public class NavAgentMover : MonoBehaviour
     internal void MoveTo(Transform target)
     {
         MoveToPos(target.position);
+    }
+    
+    internal void Stop()
+    {
+        agent.isStopped = true;
+        agent.ResetPath();
     }
 }

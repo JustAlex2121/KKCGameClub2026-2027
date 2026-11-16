@@ -9,6 +9,8 @@ public class AggressionMeter : MonoBehaviour
         Hunting
     }
 
+    private AggressionLevel previouslevel; 
+
     [Range(0, 100)]
     [SerializeField] private float aggression = 0f;
     [SerializeField] private float gainpernoise = 25f;
@@ -20,6 +22,8 @@ public class AggressionMeter : MonoBehaviour
 
     
 
+    
+
     private void BillTol(Vector3 pos, float radius)
     {
         aggression += gainpernoise;
@@ -28,11 +32,11 @@ public class AggressionMeter : MonoBehaviour
 
     public AggressionLevel GetLevel()
     {
-        if (aggression <= 25)
+        if (aggression <= 25f)
         {
             return AggressionLevel.Stationary;
         }
-        else if (aggression <=75)
+        else if (aggression <=75f)
         {
             return AggressionLevel.Curious;
         }
@@ -40,10 +44,21 @@ public class AggressionMeter : MonoBehaviour
         return AggressionLevel.Hunting;
     }
 
+ 
+
     private void Update()
     {
         aggression -= drainpersecond * Time.deltaTime;
         aggression = Mathf.Clamp(aggression, 0f, 100f);
+
+        AggressionLevel currentLevel = GetLevel();
+
+        if (currentLevel != previouslevel)
+        {
+            Debug.Log(currentLevel);
+            previouslevel = currentLevel;
+        }
+        
     }
     
    
