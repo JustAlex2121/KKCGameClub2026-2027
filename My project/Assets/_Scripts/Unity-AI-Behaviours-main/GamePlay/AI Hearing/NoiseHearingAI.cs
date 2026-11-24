@@ -17,21 +17,29 @@ public class NoiseHearingAI : MonoBehaviour
     [SerializeField] private float searchDuration = 4f;
     [SerializeField] private float wanderRadius = 12f;
     [SerializeField] private Vector2 wanderPause = new Vector2(2f, 5f);
+    [SerializeField] private float retargets = 2f; 
+    [SerializeField] private float estimateDistance = 2f;
 
     [Header("Catching the mech")]
     [SerializeField] private Rigidbody mechRb = null;
     [SerializeField] private string gameOverScene = "GameOver";
+
+    [Header("Aggressionmeter")]
+    [SerializeField] private AggressionMeter meter = null;
+
  
     private State state = State.Wander;
     private float currentNoiseScore;   // how "strong" the noise we're investigating was (0-1)
     private float stateTimer;
     private Vector3 investigatePos;
     private bool caught;
+    private float nextRetargetTime;
 
  
     private void Awake()
     {
         if (!mover) mover = GetComponent<NavAgentMover>();
+        if (!meter) meter = GetComponent<AggressionMeter>();
     }
  
     private void OnEnable() => NoiseSystem.NoiseMade += OnNoiseHeard;
@@ -41,36 +49,58 @@ public class NoiseHearingAI : MonoBehaviour
  
     private void Update()
     {
-        switch (state)
+        switch (meter.GetLevel())
         {
-            case State.Wander:
-                if (mover.HasArrived && Time.time >= stateTimer)
+            case AggressionMeter.AggressionLevel.Stationary:
+                mover.Stop();
+                return;
+
+            case AggressionMeter.AggressionLevel.Curious:
+                switch (state)
                 {
-                    mover.MoveToPos(RandomNavPoint(transform.position, wanderRadius));
-                    stateTimer = Time.time + Random.Range(wanderPause.x, wanderPause.y);
+                    case State.Wander:
+                        if (mover.HasArrived && Time.time >= stateTimer)
+                        {
+                            mover.MoveToPos(RandomNavPoint(transform.position, wanderRadius));
+                            stateTimer = Time.time + Random.Range(wanderPause.x, wanderPause.y);
+                        }  
+                        break;
+                    
+                    case State.Investigate:
+                        if (mover.HasArrived)
+                        {
+                            state = State.Search;
+                            stateTimer = Time.time + searchDuration;
+                        }
+                        break;
+
+                    case State.Search:
+                        if (mover.HasArrived)
+                            mover.MoveToPos(RandomNavPoint(investigatePos, noiseInaccuracy * 2f));
+                        if (Time.time >= stateTimer)
+                            EnterWander();
+                        break;
+                        
+                    
                 }
                 break;
- 
-            case State.Investigate:
-                if (mover.HasArrived)
+            
+            case AggressionMeter.AggressionLevel.Hunting:
+                if (mechRb != null && Time.time >= nextRetargetTime)
                 {
-                    state = State.Search;
-                    stateTimer = Time.time + searchDuration;
+                    nextRetargetTime = Time.time + retargets;
+                    mover.MoveToPos(RandomNavPoint(mechRb.position, estimateDistance));
                 }
-                break;
- 
-            case State.Search:
-                // Poke around the spot a bit, then give up.
-                if (mover.HasArrived)
-                    mover.MoveToPos(RandomNavPoint(investigatePos, noiseInaccuracy * 2f));
-                if (Time.time >= stateTimer)
-                    EnterWander();
                 break;
         }
-    }
+    }   
+
  
     private void OnNoiseHeard(Vector3 pos, float radius)
     {
+        if (meter.GetLevel() == AggressionMeter.AggressionLevel.Hunting)
+        return;
+        
         float dist = Vector3.Distance(transform.position, pos);
         float range = radius * hearingMultiplier;
         if (dist > range) return;
@@ -98,6 +128,8 @@ public class NoiseHearingAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (caught || mechRb == null) return;
+        
         if (caught) return;
 
         if (other.attachedRigidbody == mechRb)
