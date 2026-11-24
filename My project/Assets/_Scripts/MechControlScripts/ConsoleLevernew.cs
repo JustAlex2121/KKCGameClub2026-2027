@@ -26,7 +26,7 @@ public class ConsoleLevernew : MonoBehaviour
     public bool isleftLever;
 
 
-    private Vector3 origleverPosition;
+    [HideInInspector]public Vector3 origleverPosition;
 
     public bool isUp;
     public bool isNeutral;
@@ -161,125 +161,152 @@ public class ConsoleLevernew : MonoBehaviour
 
     }
 
+
     public void OnMoveLeftLeverUp(InputAction.CallbackContext context)
     {
-        if (isleftLever && OnOff.isOn)
+        if (context.performed)
         {
-            if (camcontrol.lookingatConsole && !isUp)
+            if (isleftLever && OnOff.isOn)
             {
-                if (isNeutral)
+                if (camcontrol.lookingatConsole && !isUp)
                 {
-                    isNeutral = false;
-                    isUp = true;
-                    //origleverPosition.x = maxLocalX;
+                    if (isNeutral)
+                    {
+                        isNeutral = false;
+                        isUp = true;
+                        Debug.Log("it should be going up");
+                        origleverPosition.x = maxLocalX;
 
+                    }
+                    else if (!isNeutral)
+                    {
+                        isUp = false;
+                        isNeutral = true;
+                        origleverPosition.x = midLocalX;
+                    }
+                    //HandleMovement();
+                    transform.localPosition = origleverPosition;
                 }
-                if (!isNeutral)
+                else
                 {
-                    isUp = false;
-                    isNeutral = true;
-                    //origleverPosition.x = midLocalX;
+                    Debug.Log("lever is all the way up");
                 }
-                HandleMovement();
-                //transform.localPosition = origleverPosition;
-            }
-            else
-            {
-                Debug.Log("lever is all the way up");
             }
         }
-        
+
+
     }
 
     public void OnMoveLeftLeverDown(InputAction.CallbackContext context)
     {
-        if (isleftLever && OnOff.isOn)        
+        if (context.performed)
         {
-            if (camcontrol.lookingatConsole && (isUp || isNeutral))
+            if (isleftLever && OnOff.isOn)
             {
-
-                if (isUp)
+                if (camcontrol.lookingatConsole && (isNeutral || isUp))
                 {
-                    isUp = false;
-                    isNeutral = true;
-                   // origleverPosition.x = midLocalX;
 
+                    if (isUp)
+                    {
+                        isUp = false;
+                        isNeutral = true;
+                        Debug.Log("it should be going to neutral");
+                        origleverPosition.x = midLocalX;
+
+                    }
+                    else if (isNeutral)
+                    {
+                        isUp = false;
+                        isNeutral = false;
+                        origleverPosition.x = minLocalX;
+                    }
+                    //HandleMovement();
+                    transform.localPosition = origleverPosition;
                 }
-                if (isNeutral)
+                else
                 {
-                    isUp = false;
-                    isNeutral = false;
-                   // origleverPosition.x = minLocalX;
+                    Debug.Log("lever is all the way down");
                 }
-                HandleMovement();
-                //transform.localPosition = origleverPosition;
-            }
-            else
-            {
-                Debug.Log("lever is all the way down");
             }
         }
+
 
     }
 
     public void OnMoveRightLeverUp(InputAction.CallbackContext context)
     {
-        if (!isleftLever && OnOff.isOn)
+        if (context.performed)
         {
-            if (camcontrol.lookingatConsole && !isUp)
+            if (!isleftLever && OnOff.isOn)
             {
-                if (isNeutral)
+                if (isleftLever)
                 {
-                    isNeutral = false;
-                    isUp = true;
-                    //origleverPosition.x = maxLocalX;
+                    Debug.Log("this shouldn't be running");
+                }
+                if (camcontrol.lookingatConsole && !isUp)
+                {
+                    if (isNeutral)
+                    {
+                        isNeutral = false;
+                        isUp = true;
+                        Debug.Log("it should be going up");
 
+                        origleverPosition.x = maxLocalX;
+
+                    }
+                    else if (!isNeutral)
+                    {
+                        isUp = false;
+                        isNeutral = true;
+                        origleverPosition.x = midLocalX;
+                    }
+                    //HandleMovement();
+                    transform.localPosition = origleverPosition;
                 }
-                if (!isNeutral)
+                else
                 {
-                    isUp = false;
-                    isNeutral = true;
-                   // origleverPosition.x = midLocalX;
+                    Debug.Log("lever is all the way up");
                 }
-                HandleMovement();
-                //transform.localPosition = origleverPosition;
-            }
-            else
-            {
-                Debug.Log("lever is all the way up");
             }
         }
+       
 
     }
 
     public void OnMoveRightLeverDown(InputAction.CallbackContext context)
     {
-        if (!isleftLever && OnOff.isOn)
+        if (context.performed)
         {
-            if (camcontrol.lookingatConsole && (isUp || isNeutral))
+            if (!isleftLever && OnOff.isOn)
             {
-
-                if (isUp)
+                if (camcontrol.lookingatConsole && (isNeutral || isUp))
                 {
-                    isUp = false;
-                    isNeutral = true;
-                    //origleverPosition.x = midLocalX;
 
+                    if (isUp)
+                    {
+                        isUp = false;
+                        isNeutral = true;
+                        Debug.Log("it should be going to neutral");
+                        origleverPosition.x = midLocalX;
+
+                    }
+                    else if (isNeutral)
+                    {
+                        isUp = false;
+                        isNeutral = false;
+
+                        origleverPosition.x = minLocalX;
+                    }
+                    //HandleMovement();
+                    transform.localPosition = origleverPosition;
                 }
-                if (isNeutral)
+                else
                 {
-                    isUp = false;
-                    isNeutral = false;
-                    //origleverPosition.x = minLocalX;
+                    Debug.Log("lever is all the way down");
                 }
-                HandleMovement();
-                //transform.localPosition = origleverPosition;
-            }
-            else
-            {
-                Debug.Log("lever is all the way down");
             }
         }
+        
 
     }
 
@@ -288,6 +315,7 @@ public class ConsoleLevernew : MonoBehaviour
         if (isUp)
         {
             origleverPosition.x = maxLocalX;
+            Debug.Log("Position changed to top");
         }
         if (isNeutral)
         {
@@ -298,6 +326,8 @@ public class ConsoleLevernew : MonoBehaviour
         {
             origleverPosition.x = minLocalX;
         }
+
         transform.localPosition = origleverPosition;
     }
+    
 }
