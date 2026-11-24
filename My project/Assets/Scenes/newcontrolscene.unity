@@ -1357,6 +1357,7 @@ MonoBehaviour:
   maxLocalX: 0.1
   midLocalX: 0
   isleftLever: 1
+  origleverPosition: {x: 0, y: 0, z: 0}
   isUp: 0
   isNeutral: 1
   OnOff: {fileID: 616839332}
@@ -6694,6 +6695,7 @@ MonoBehaviour:
   maxLocalX: 0.1
   midLocalX: 0
   isleftLever: 0
+  origleverPosition: {x: 0, y: 0, z: 0}
   isUp: 0
   isNeutral: 1
   OnOff: {fileID: 616839332}
