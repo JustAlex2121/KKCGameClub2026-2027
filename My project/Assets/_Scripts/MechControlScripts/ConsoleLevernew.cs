@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class ConsoleLevernew : MonoBehaviour
@@ -14,12 +15,16 @@ public class ConsoleLevernew : MonoBehaviour
     private float clampedZ;
 
     private Camera mainCamera;
+    private CameraController camcontrol;
     private Vector3 dragOffset;
     private Plane movementPlane;
     private Transform parentTransform;
 
     private bool rotatemech;
     private bool movemech;
+
+    public bool isleftLever;
+
 
     private Vector3 origleverPosition;
 
@@ -33,6 +38,7 @@ public class ConsoleLevernew : MonoBehaviour
         isNeutral = true;
         origleverPosition = transform.localPosition;
         mainCamera = Camera.main;
+        camcontrol = mainCamera.GetComponent<CameraController>();
         //grabs the transform of the parent of the object this script is attached to
         parentTransform = transform.parent;
     }
@@ -94,19 +100,19 @@ public class ConsoleLevernew : MonoBehaviour
     }
 
   
-        public float GetClosestNumber(float target, float[] numbers)
-        {
-            if (numbers == null || numbers.Length == 0)
-            {
+    public float GetClosestNumber(float target, float[] numbers)
+    {
+          if (numbers == null || numbers.Length == 0)
+          {
                 Debug.LogWarning("Number array is empty!");
                 return target;
-            }
+          }
 
-            float closest = numbers[0];
-            float smallestDifference = Mathf.Abs(target - closest);
+          float closest = numbers[0];
+          float smallestDifference = Mathf.Abs(target - closest);
 
-            for (int i = 1; i < numbers.Length; i++)
-            {
+          for (int i = 1; i < numbers.Length; i++)
+          {
                 float currentDifference = Mathf.Abs(target - numbers[i]);
 
                 if (currentDifference < smallestDifference)
@@ -114,10 +120,10 @@ public class ConsoleLevernew : MonoBehaviour
                     smallestDifference = currentDifference;
                     closest = numbers[i];
                 }
-            }
+          }
 
-            return closest;
-        }
+          return closest;
+    }
     
     
     
@@ -154,5 +160,144 @@ public class ConsoleLevernew : MonoBehaviour
        
 
     }
-    
+
+    public void OnMoveLeftLeverUp(InputAction.CallbackContext context)
+    {
+        if (isleftLever && OnOff.isOn)
+        {
+            if (camcontrol.lookingatConsole && !isUp)
+            {
+                if (isNeutral)
+                {
+                    isNeutral = false;
+                    isUp = true;
+                    //origleverPosition.x = maxLocalX;
+
+                }
+                if (!isNeutral)
+                {
+                    isUp = false;
+                    isNeutral = true;
+                    //origleverPosition.x = midLocalX;
+                }
+                HandleMovement();
+                //transform.localPosition = origleverPosition;
+            }
+            else
+            {
+                Debug.Log("lever is all the way up");
+            }
+        }
+        
+    }
+
+    public void OnMoveLeftLeverDown(InputAction.CallbackContext context)
+    {
+        if (isleftLever && OnOff.isOn)        
+        {
+            if (camcontrol.lookingatConsole && (isUp || isNeutral))
+            {
+
+                if (isUp)
+                {
+                    isUp = false;
+                    isNeutral = true;
+                   // origleverPosition.x = midLocalX;
+
+                }
+                if (isNeutral)
+                {
+                    isUp = false;
+                    isNeutral = false;
+                   // origleverPosition.x = minLocalX;
+                }
+                HandleMovement();
+                //transform.localPosition = origleverPosition;
+            }
+            else
+            {
+                Debug.Log("lever is all the way down");
+            }
+        }
+
+    }
+
+    public void OnMoveRightLeverUp(InputAction.CallbackContext context)
+    {
+        if (!isleftLever && OnOff.isOn)
+        {
+            if (camcontrol.lookingatConsole && !isUp)
+            {
+                if (isNeutral)
+                {
+                    isNeutral = false;
+                    isUp = true;
+                    //origleverPosition.x = maxLocalX;
+
+                }
+                if (!isNeutral)
+                {
+                    isUp = false;
+                    isNeutral = true;
+                   // origleverPosition.x = midLocalX;
+                }
+                HandleMovement();
+                //transform.localPosition = origleverPosition;
+            }
+            else
+            {
+                Debug.Log("lever is all the way up");
+            }
+        }
+
+    }
+
+    public void OnMoveRightLeverDown(InputAction.CallbackContext context)
+    {
+        if (!isleftLever && OnOff.isOn)
+        {
+            if (camcontrol.lookingatConsole && (isUp || isNeutral))
+            {
+
+                if (isUp)
+                {
+                    isUp = false;
+                    isNeutral = true;
+                    //origleverPosition.x = midLocalX;
+
+                }
+                if (isNeutral)
+                {
+                    isUp = false;
+                    isNeutral = false;
+                    //origleverPosition.x = minLocalX;
+                }
+                HandleMovement();
+                //transform.localPosition = origleverPosition;
+            }
+            else
+            {
+                Debug.Log("lever is all the way down");
+            }
+        }
+
+    }
+
+    private void HandleMovement()
+    {
+        if (isUp)
+        {
+            origleverPosition.x = maxLocalX;
+        }
+        if (isNeutral)
+        {
+            origleverPosition.x = midLocalX;
+
+        }
+        else
+        {
+            origleverPosition.x = minLocalX;
+        }
+        transform.localPosition = origleverPosition;
+    }
 }

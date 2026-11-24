@@ -31,9 +31,10 @@ public class EngineControlScript : MonoBehaviour
     public bool enginedialsokay;
 
 
-    //reference to the CheckButton script
+    //reference to other scripts
     private CheckButtonLever button;
     private CheckButtonDial dial;
+    [SerializeField] private OnOffButton powerbutton;
 
     //materials for the lights
     public Material correct;
@@ -99,6 +100,7 @@ public class EngineControlScript : MonoBehaviour
         button.rodlight4.GetComponent<MeshRenderer>().material = wrong;
         dial.lightcoolant.GetComponent<MeshRenderer>().material = wrong;
         dial.lightpressure.GetComponent<MeshRenderer>().material = wrong;
+        powerbutton.isOn = false;
         yield break;
     }
 }

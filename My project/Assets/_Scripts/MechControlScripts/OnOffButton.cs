@@ -7,6 +7,7 @@ public class OnOffButton : MonoBehaviour
 
     [SerializeField]private ConsoleLevernew leftLever;
     [SerializeField] private ConsoleLevernew rightLever;
+    [SerializeField] private EngineControlScript engine;
 
     public bool isOn = false;
 
@@ -127,7 +128,11 @@ public class OnOffButton : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        isOn = !isOn;
+        if (!engine.engineoverheated)
+        {
+            isOn = !isOn;
+        }
+        
 
         if (isOn)
         {

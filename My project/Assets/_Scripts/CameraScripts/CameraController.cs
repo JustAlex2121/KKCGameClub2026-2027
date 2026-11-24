@@ -27,6 +27,7 @@ public class CameraController : MonoBehaviour
     private GameObject triggerarea;
     private CameraTriggerArea area;
     [SerializeField] private bool lookdown;
+    public bool lookingatConsole;
 
     void Update()
     {
@@ -48,6 +49,7 @@ public class CameraController : MonoBehaviour
                 reticle.enabled = true;
                 playerrender.enabled = true;
                 playercollider.enabled = true;
+                lookingatConsole = false;
                 MoveCamera();
                 triggerarea.SetActive(true);
             }
@@ -76,6 +78,10 @@ public class CameraController : MonoBehaviour
                 cameraOffset = area.triggerCameraOffset;
                 currentTarget = hit.transform;
                 isLocked = true;
+                if(currentTag == "Console")
+                {
+                    lookingatConsole = true;
+                }
                 if (!storedPos)
                 {
                     originalPosition = transform.position;
